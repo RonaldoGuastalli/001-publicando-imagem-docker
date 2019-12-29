@@ -1,2 +1,2 @@
-# 001_publicando_imagem_laravel
+# Publicando Imagem Laravel
 Publicando imagem Laravel
