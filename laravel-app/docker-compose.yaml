@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  #PHP Service
+  app:
+    build: .
+    container_name: app
+
   #Nginx Service
   nginx:
     build: ./.docker/nginx
