@@ -10,3 +10,10 @@ services:
     ports:
       - "8000:80"
 
+  #Redis Service
+  redis:
+    image: redis:alpine
+    container_name: redis
+    expose:
+      - 6379
+
