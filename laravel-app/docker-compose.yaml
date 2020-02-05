@@ -5,6 +5,10 @@ services:
   app:
     build: .
     container_name: app
+    volumes:
+      - .:/var/www
+    networks:
+      - app-network
 
   #Nginx Service
   nginx:
@@ -14,6 +18,11 @@ services:
     tty: true
     ports:
       - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./.docker/nginx/nginx.conf:/etc/nginx.conf:ro
+    networks:
+      - app-network
 
   #Redis Service
   redis:
@@ -21,6 +30,8 @@ services:
     container_name: redis
     expose:
       - 6379
+    networks:
+      - app-network
 
   #MySQL Service
   database:
@@ -31,4 +42,12 @@ services:
     tty: true
     ports:
       - "33600:3306"
+    volumes:
+      - ./.docker/dbdata/:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
