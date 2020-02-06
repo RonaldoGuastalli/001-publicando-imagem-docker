@@ -9,6 +9,12 @@ services:
       - .:/var/www
     networks:
       - app-network
+    env_file: .env
+    environment:
+      - DB_DATABASE=laravel-app
+      - DB_PASSWORD=root
+      - DB_USERNAME=root
+      - DB_HOST=database
 
   #Nginx Service
   nginx:
@@ -42,10 +48,19 @@ services:
     tty: true
     ports:
       - "33600:3306"
+    environment:
+      - MYSQL_DATABASE=laravel-app
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
     volumes:
       - ./.docker/dbdata/:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", 'mysql -uroot --database=laravel-app --password=root --execute="SELECT count(table_name) > 0 FROM information_schema.tables;" --skip-column-names -B']
+      interval: 10s
+      timeout: 10s
+      retries: 4
 
 networks:
   app-network:
